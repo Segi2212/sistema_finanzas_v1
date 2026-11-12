@@ -12,7 +12,7 @@ function App() {
         <div className="">
           <HeaderBar></HeaderBar>
         </div>
-        <div className="h-200"></div>
+        <div className="h-[100vh] bg-tertiary-10 pt-14"></div>
       </div>
     </div>
   );

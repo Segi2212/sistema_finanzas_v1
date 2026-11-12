@@ -27,7 +27,9 @@
   --tertiary-400: #1215c5;
   --tertiary-500: #0c0f8b;
   --tertiary-10: rgba(99, 101, 241, 0.1);
-  --tertiary-50: #6467f2 --neutral-100: #64748b;
+  --tertiary-50: #6467f2;
+
+  --neutral-100: #64748b;
 
   --red-100: #fb3748;
   --red-200: #d00416;
