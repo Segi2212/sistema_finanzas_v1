@@ -5,7 +5,6 @@
 @import "@fontsource-variable/geist";
 
 @custom-variant dark (&:is(.dark *));
-/* @custom-variant: dark (&:is(.dark *)); */
 
 :root {
   --primary-100: #90a5d7;

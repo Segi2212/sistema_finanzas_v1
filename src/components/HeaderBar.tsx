@@ -7,7 +7,7 @@ import { useState } from "react";
 
 function HeaderBar() {
   return (
-    <header className="fixed top-0 z-50 flex w-full h-14 items-center border-b px-normal">
+    <header className="top-0 z-50 h-14 flex items-center border-b px-normal bg-tertiary-10">
       <div className="ml-auto">
         <CalendarMain />
       </div>
