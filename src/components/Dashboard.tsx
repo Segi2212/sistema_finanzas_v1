@@ -1,22 +1,22 @@
 import { Button } from "./ui/button";
 type gender = "masculino" | "femenino";
 
-interface userData {
-  name: "Oscar";
-  lastName: "Juarez";
-  age: "32";
-  gender: "masculino";
+export interface IUserData {
+  name: string;
+  lastName: string;
+  age: number;
+  gender: gender;
 }
 
-function Dashboard() {
+function Dashboard({ userData }: { userData: IUserData }) {
   return (
     <div className="">
-      <HeaderDashBoard />
+      <HeaderDashBoard userData={userData}></HeaderDashBoard>
     </div>
   );
 }
 
-function HeaderDashBoard() {
+function HeaderDashBoard({ userData }: { userData: IUserData }) {
   return (
     <div className="flex gap-x-4">
       <div className="row-span-1 flex-1">
@@ -25,8 +25,9 @@ function HeaderDashBoard() {
         </div>
         <div>
           <span className="text-[15px] font-small">
-            Bienvenid de vuelta, . Aquí tienes el pulso de tu patrimonio a fecha
-            de hoy.
+            {userData.gender! == "masculino" ? "Bienvenido" : "Bienvenida"} de
+            vuelta, {userData.name}. Aquí tienes el pulso de tu patrimonio a la
+            fecha de hoy.
           </span>
         </div>
       </div>
