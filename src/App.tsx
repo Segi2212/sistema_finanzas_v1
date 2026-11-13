@@ -1,6 +1,7 @@
 import "./App.css";
 import HeaderBar from "./components/HeaderBar";
 import NavBar from "./components/NavBar";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   return (
@@ -12,7 +13,9 @@ function App() {
         <div className="">
           <HeaderBar></HeaderBar>
         </div>
-        <div className="h-[100vh] bg-tertiary-10 pt-14"></div>
+        <div className="h-auto bg-tertiary-10 p-9">
+          <Dashboard />
+        </div>
       </div>
     </div>
   );
