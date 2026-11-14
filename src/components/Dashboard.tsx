@@ -1,4 +1,5 @@
 import { Button } from "./ui/button";
+import { Kbd } from "./ui/kbd";
 import {
   Card,
   CardContent,
@@ -30,8 +31,16 @@ import {
   ArrowDown,
   CreditCard,
   PiggyBank,
-  CircleSmall,
+  ArrowRight,
 } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "./ui/table";
 
 type gender = "masculino" | "femenino";
 
@@ -44,16 +53,19 @@ export interface IUserData {
 
 function Dashboard({ userData }: { userData: IUserData }) {
   return (
-    <div className="">
+    <div>
       <HeaderDashBoard userData={userData}></HeaderDashBoard>
       <CardMoney></CardMoney>
-      <div className="flex mt-5">
-        <div className="flex-4 h-auto w-auto p-3">
+      <div className="flex mt-5 gap-x-5">
+        <div className="flex-4 h-auto w-auto">
           <div>
-            <AnnualReport />
+            <CardAnnualReport />
+          </div>
+          <div>
+            <LatestMovements />
           </div>
         </div>
-        <div className="flex-2 h-100 w-auto p-3">
+        <div className="flex-2 h-100 w-auto">
           <CompareExpenses month="Noviembre" />
         </div>
       </div>
@@ -120,7 +132,7 @@ function CardMoney() {
   );
 }
 
-function AnnualReport() {
+function CardAnnualReport() {
   const chartConfig = {
     desktop: {
       label: "Desktop",
@@ -144,7 +156,7 @@ function AnnualReport() {
   return (
     <div>
       <Card>
-        <div className="flex flex-1 flex-col justify-center gap-1 px-6 pt-4 pb-3 sm:py-0!">
+        <div className="flex flex-1 flex-col justify-center px-6 pb-3">
           <CardTitle>Flujo de Efectivo Mensual</CardTitle>
           <CardDescription>
             Comparativa analítica de entradas líquidas vs compromisos de gastos
@@ -316,6 +328,65 @@ function CardChartAnnual() {
           </CardContent>
         </Card>
       ))}
+    </div>
+  );
+}
+
+function LatestMovements() {
+  const lastMovements = [
+    { icon: ArrowDown, concept: "1", category: "2", date: "", amount: 0 },
+    { icon: ArrowDown, concept: "1", category: "2", date: "", amount: 0 },
+    { icon: ArrowDown, concept: "1", category: "2", date: "", amount: 0 },
+    { icon: ArrowDown, concept: "1", category: "2", date: "", amount: 0 },
+    { icon: ArrowDown, concept: "1", category: "2", date: "", amount: 0 },
+  ];
+  return (
+    <div>
+      <Card className="px-6 mt-5">
+        <div>
+          <CardTitle>
+            Últimos Movimientos
+            <Kbd className="ml-2 bg-secondary-10 text-secondary-300 p-2">
+              5 Registros
+            </Kbd>
+          </CardTitle>
+          <CardDescription>Operaciones bancarias sincronizadas</CardDescription>
+
+          <Table className="mt-4">
+            <TableHeader className="bg-secondary-10">
+              <TableRow>
+                <TableHead className="text-center">Concepto</TableHead>
+                <TableHead className="text-center">Categoría</TableHead>
+                <TableHead className="text-center">Fecha</TableHead>
+                <TableHead className="text-center">Monto</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {lastMovements.map((item) => (
+                <TableRow>
+                  <TableCell className="flex font-medium align-center">
+                    <item.icon />
+                    <span>{item.concept}</span>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <Kbd className="p-3 text-primary-300 bg-secondary-10">
+                      {item.concept}
+                    </Kbd>
+                  </TableCell>
+                  <TableCell>{item.date}</TableCell>
+                  <TableCell className="text-right">${item.amount}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <div className="flex mt-4 justify-center text-md text-secondary-400 cursor-pointer">
+            <span className="my-auto">
+              Ver todos los movimientos del periodo
+            </span>
+            <ArrowRight className="ml-2" my-auto size="20" />
+          </div>
+        </div>
+      </Card>
     </div>
   );
 }
