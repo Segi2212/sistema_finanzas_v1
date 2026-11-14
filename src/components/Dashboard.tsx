@@ -41,6 +41,15 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
+import {
+  Attachment,
+  AttachmentAction,
+  AttachmentActions,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentMedia,
+  AttachmentTitle,
+} from "./ui/attachment";
 
 type gender = "masculino" | "femenino";
 
@@ -67,6 +76,7 @@ function Dashboard({ userData }: { userData: IUserData }) {
         </div>
         <div className="flex-2 h-100 w-auto">
           <CompareExpenses month="Noviembre" />
+          <NextPayments />
         </div>
       </div>
     </div>
@@ -156,11 +166,14 @@ function CardAnnualReport() {
   return (
     <div>
       <Card>
-        <div className="flex flex-1 flex-col justify-center px-6 pb-3">
-          <CardTitle>Flujo de Efectivo Mensual</CardTitle>
-          <CardDescription>
-            Comparativa analítica de entradas líquidas vs compromisos de gastos
-          </CardDescription>
+        <div className="flex flex-1 flex-col justify-center pb-3">
+          <CardHeader>
+            <CardTitle>Flujo de Efectivo Mensual</CardTitle>
+            <CardDescription>
+              Comparativa analítica de entradas líquidas vs compromisos de
+              gastos
+            </CardDescription>
+          </CardHeader>
           <CardContent>
             <ChartContainer config={chartConfig}>
               <BarChart data={chartData}>
@@ -342,43 +355,43 @@ function LatestMovements() {
   ];
   return (
     <div>
-      <Card className="px-6 mt-5">
+      <Card className="mt-4">
         <div>
-          <CardTitle>
-            Últimos Movimientos
-            <Kbd className="ml-2 bg-secondary-10 text-secondary-300 p-2">
-              5 Registros
-            </Kbd>
-          </CardTitle>
-          <CardDescription>Operaciones bancarias sincronizadas</CardDescription>
-
-          <Table className="mt-4">
-            <TableHeader className="bg-secondary-10">
-              <TableRow>
-                <TableHead className="text-center">Concepto</TableHead>
-                <TableHead className="text-center">Categoría</TableHead>
-                <TableHead className="text-center">Fecha</TableHead>
-                <TableHead className="text-center">Monto</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {lastMovements.map((item) => (
+          <CardHeader>
+            <CardTitle>Últimos Movimientos</CardTitle>
+            <CardDescription>
+              Operaciones bancarias sincronizadas
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table className="mt-4">
+              <TableHeader className="bg-secondary-10">
                 <TableRow>
-                  <TableCell className="flex font-medium align-center">
-                    <item.icon />
-                    <span>{item.concept}</span>
-                  </TableCell>
-                  <TableCell className="text-center">
-                    <Kbd className="p-3 text-primary-300 bg-secondary-10">
-                      {item.concept}
-                    </Kbd>
-                  </TableCell>
-                  <TableCell>{item.date}</TableCell>
-                  <TableCell className="text-right">${item.amount}</TableCell>
+                  <TableHead className="text-center">Concepto</TableHead>
+                  <TableHead className="text-center">Categoría</TableHead>
+                  <TableHead className="text-center">Fecha</TableHead>
+                  <TableHead className="text-center">Monto</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {lastMovements.map((item) => (
+                  <TableRow>
+                    <TableCell className="flex font-medium align-center">
+                      <item.icon />
+                      <span>{item.concept}</span>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Kbd className="p-3 text-primary-300 bg-secondary-10">
+                        {item.concept}
+                      </Kbd>
+                    </TableCell>
+                    <TableCell>{item.date}</TableCell>
+                    <TableCell className="text-right">${item.amount}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
           <div className="flex mt-4 justify-center text-md text-secondary-400 cursor-pointer">
             <span className="my-auto">
               Ver todos los movimientos del periodo
@@ -386,6 +399,37 @@ function LatestMovements() {
             <ArrowRight className="ml-2" my-auto size="20" />
           </div>
         </div>
+      </Card>
+    </div>
+  );
+}
+
+function NextPayments() {
+  const debts = [
+    { icon: ArrowDown, title: "Parte 1", date: "fecha1", money: 1 },
+    { icon: ArrowDown, title: "Parte 2", date: "fecha1", money: 1 },
+  ];
+  return (
+    <div>
+      <Card className="mt-4">
+        <CardHeader>
+          <CardTitle>Próximos Vencimientos</CardTitle>
+          <CardDescription>De los proximos 7 días</CardDescription>
+        </CardHeader>
+        <CardContent>
+          {debts.map((item) => (
+            <Attachment className="w-full flex mt-1">
+              <AttachmentMedia>
+                <item.icon />
+              </AttachmentMedia>
+              <AttachmentContent className="">
+                <AttachmentTitle>{item.title}</AttachmentTitle>
+                <AttachmentDescription>{item.date}</AttachmentDescription>
+              </AttachmentContent>
+              <AttachmentActions>{item.money}</AttachmentActions>
+            </Attachment>
+          ))}
+        </CardContent>
       </Card>
     </div>
   );
