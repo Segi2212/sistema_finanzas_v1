@@ -24,7 +24,7 @@ import {
   Label,
 } from "recharts";
 import { TraceIcon, TraceLine, TraceTitle } from "./ui/trace";
-import {} from "lucide-react";
+import { Shield } from "lucide-react";
 import {
   Plus,
   Landmark,
@@ -50,6 +50,7 @@ import {
   AttachmentMedia,
   AttachmentTitle,
 } from "./ui/attachment";
+import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 
 type gender = "masculino" | "femenino";
 
@@ -77,6 +78,7 @@ function Dashboard({ userData }: { userData: IUserData }) {
         <div className="flex-2 h-100 w-auto">
           <CompareExpenses month="Noviembre" />
           <NextPayments />
+          <HeritageDiagnosis />
         </div>
       </div>
     </div>
@@ -429,6 +431,38 @@ function NextPayments() {
               <AttachmentActions>{item.money}</AttachmentActions>
             </Attachment>
           ))}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+function HeritageDiagnosis() {
+  return (
+    <div>
+      <Card className="mt-4">
+        <CardHeader>
+          <CardTitle>Diagnóstico Patrimonial</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-6xl text-primary-400">88%</div>
+          <div className="mt-2 h-4 w-full overflow-hidden rounded-full bg-muted">
+            <div
+              className="h-full rounded-full bg-secondary-400"
+              style={{ width: "88%" }}
+            />
+          </div>
+          <Alert className="mt-4 bg-secondary-10">
+            <Shield
+              color="var(--color-primary-300)"
+              className="font-primary-300"
+            />
+            <AlertTitle>Fondo de Emergencia</AlertTitle>
+            <AlertDescription>
+              Dispones de liquidez asegurada para sostener tu nivel de vida
+              actual durante 8 meses completos sin requerir nuevos ingresos.
+            </AlertDescription>
+          </Alert>
         </CardContent>
       </Card>
     </div>
