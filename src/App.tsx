@@ -17,11 +17,11 @@ function App() {
       <div className="w-auto h-dvh">
         <NavBar></NavBar>
       </div>
-      <div className="flex-1 w-auto bg-tertiary-10">
+      <div className="flex-1 w-auto bg-tertiary-05">
         <div className="">
           <HeaderBar></HeaderBar>
         </div>
-        <div className="h-auto bg-tertiary-10 p-9">
+        <div className="h-auto bg-tertiary-05 p-9">
           <Dashboard userData={userData} />
         </div>
       </div>
