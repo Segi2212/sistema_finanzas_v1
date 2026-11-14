@@ -2,6 +2,7 @@ import "./App.css";
 import HeaderBar from "./components/HeaderBar";
 import NavBar from "./components/NavBar";
 import Dashboard from "./components/Dashboard";
+import { Routes, Route } from "react-router";
 import { type IUserData } from "./components/Dashboard";
 
 const userData: IUserData = {
@@ -22,7 +23,10 @@ function App() {
           <HeaderBar></HeaderBar>
         </div>
         <div className="h-auto bg-tertiary-05 p-9">
-          <Dashboard userData={userData} />
+          <Routes>
+            <Route path="/" element={<Dashboard userData={userData} />} />
+          </Routes>
+          {/* <Dashboard userData={userData} /> */}
         </div>
       </div>
     </div>
