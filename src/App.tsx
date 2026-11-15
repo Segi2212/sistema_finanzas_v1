@@ -2,6 +2,7 @@ import "./App.css";
 import HeaderBar from "./components/HeaderBar";
 import NavBar from "./components/NavBar";
 import Dashboard from "./components/Dashboard";
+import Configuration from "./components/Configuration";
 import { Routes, Route } from "react-router";
 import { type IUserData } from "./components/Dashboard";
 
@@ -25,6 +26,7 @@ function App() {
         <div className="h-auto bg-tertiary-05 p-9">
           <Routes>
             <Route path="/" element={<Dashboard userData={userData} />} />
+            <Route path="/conf" element={<Configuration />} />
           </Routes>
           {/* <Dashboard userData={userData} /> */}
         </div>
