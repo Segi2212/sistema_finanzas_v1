@@ -11,7 +11,7 @@ import {
 } from "./ui/card";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { FieldError, FieldLabel } from "./ui/field";
+import { FieldError, FieldLabel, FieldTitle } from "./ui/field";
 import { Button } from "./ui/button";
 import {
   Select,
@@ -25,6 +25,7 @@ import {
 // Catálogos
 import { gendersC } from "../Catalogs/Gender";
 import { coinsC } from "../Catalogs/Coins";
+import { daysC } from "../Catalogs/Days";
 
 import * as z from "zod";
 import { useForm, Controller } from "react-hook-form";
@@ -85,6 +86,10 @@ function FormGeneralData1() {
       .number({ error: "Selecciona una divisa" })
       .int({ error: "Selecciona una divisa" })
       .positive({ error: "Selecciona una divisa valida" }),
+    day: z
+      .number({ error: "Selecciona un día" })
+      .int({ error: "Selecciona un día valido" })
+      .positive({ error: "Selecciona un día valido" }),
   });
 
   type FormData = z.infer<typeof formSchema>;
@@ -103,11 +108,13 @@ function FormGeneralData1() {
       name: "",
       gender: undefined,
       coin: undefined,
+      day: undefined,
     },
     mode: "onChange",
   });
   const genderItems = gendersC.map((g) => ({ value: g.id, label: g.label }));
-  const coinsItems = coinsC.map((g) => ({ value: g.id, label: g.label }));
+  const coinsItems = coinsC.map((c) => ({ value: c.id, label: c.label }));
+  const daysItems = daysC.map((d) => ({ value: d.id, label: d.label }));
 
   const validateForm = async () => {
     await trigger();
@@ -231,7 +238,7 @@ function FormGeneralData1() {
                         />
                       )}
                     </div>
-                    <SelectContent>
+                    <SelectContent alignItemWithTrigger={false}>
                       <SelectGroup>
                         {coinsC.map((item) => (
                           <SelectItem key={item.id} value={item.id}>
@@ -247,6 +254,55 @@ function FormGeneralData1() {
                 <FieldError>{errors.coin?.message}</FieldError>
               )}
             </div>
+          </Label>
+
+          {/* Primer día de la semana */}
+          <Label className="grid grid-cols-1">
+            <FieldTitle>Primer día de la semana</FieldTitle>
+            <Controller
+              name="day"
+              control={control}
+              render={({ field }) => (
+                <div className="w-full">
+                  <Select
+                    items={daysItems}
+                    value={field.value ?? null}
+                    onValueChange={(v) => field.onChange(v ?? undefined)}
+                  >
+                    <div className="flex">
+                      <SelectTrigger
+                        ref={field.ref}
+                        onBlur={field.onBlur}
+                        className="w-full"
+                        aria-invalid={errors.day?.message !== undefined}
+                      >
+                        <SelectValue placeholder="Selecciona el primer día de la semana" />
+                      </SelectTrigger>
+                      {getValues("day") !== undefined && (
+                        <X
+                          className="my-auto"
+                          onClick={() => {
+                            field.onChange(undefined);
+                          }}
+                        />
+                      )}
+                    </div>
+                    <SelectContent alignItemWithTrigger={false}>
+                      <SelectGroup>
+                        {daysItems.map((item) => (
+                          <SelectItem key={item.value} value={item.value}>
+                            {item.label}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                  {errors.day?.message !== undefined && (
+                    <FieldError>{errors.day.message}</FieldError>
+                  )}
+                </div>
+              )}
+            />
           </Label>
         </form>
       </CardContent>
