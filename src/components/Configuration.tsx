@@ -107,6 +107,7 @@ function FormGeneralData1() {
     mode: "onChange",
   });
   const genderItems = gendersC.map((g) => ({ value: g.id, label: g.label }));
+  const coinsItems = coinsC.map((g) => ({ value: g.id, label: g.label }));
 
   const validateForm = async () => {
     await trigger();
@@ -190,7 +191,6 @@ function FormGeneralData1() {
                         ))}
                       </SelectGroup>
                     </SelectContent>
-                    {getValues("gender")}
                   </Select>
                 )}
               />
@@ -211,7 +211,7 @@ function FormGeneralData1() {
                 control={control}
                 render={({ field }) => (
                   <Select
-                    items={coinsC}
+                    items={coinsItems}
                     value={field.value ?? null}
                     onValueChange={(v) => field.onChange(v ?? undefined)}
                   >
@@ -224,7 +224,7 @@ function FormGeneralData1() {
                       >
                         <SelectValue placeholder="Selecciona una divisa" />
                       </SelectTrigger>
-                      {field.value != null && (
+                      {getValues("coin") != undefined && (
                         <X
                           className="my-auto"
                           onClick={() => field.onChange(undefined)}
@@ -243,8 +243,10 @@ function FormGeneralData1() {
                   </Select>
                 )}
               />
+              {errors.coin?.message !== undefined && (
+                <FieldError>{errors.coin?.message}</FieldError>
+              )}
             </div>
-            {watch("coin")}
           </Label>
         </form>
       </CardContent>
