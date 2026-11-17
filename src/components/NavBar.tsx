@@ -92,6 +92,7 @@ function MainItems({ items }: { items: ItemsNav[] }) {
     <SidebarMenu>
       {projects.map((project) => (
         <NavLink
+          key={project.id}
           to={project.url}
           className={({ isActive }) =>
             isActive

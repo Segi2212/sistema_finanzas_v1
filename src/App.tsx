@@ -8,8 +8,6 @@ import { type IUserData } from "./components/Dashboard";
 
 const userData: IUserData = {
   name: "Oscar",
-  lastName: "Juarez",
-  age: 32,
   gender: "masculino",
 };
 

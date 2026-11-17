@@ -43,7 +43,6 @@ import {
 } from "./ui/table";
 import {
   Attachment,
-  AttachmentAction,
   AttachmentActions,
   AttachmentContent,
   AttachmentDescription,
@@ -51,14 +50,11 @@ import {
   AttachmentTitle,
 } from "./ui/attachment";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
-
-type gender = "masculino" | "femenino";
+import type { gendersT } from "../Catalogs/Gender";
 
 export interface IUserData {
   name: string;
-  lastName: string;
-  age: number;
-  gender: gender;
+  gender: gendersT;
 }
 
 function Dashboard({ userData }: { userData: IUserData }) {
