@@ -1,4 +1,4 @@
-import { Download, Landmark, Settings, Watch, X } from "lucide-react";
+import { Download, Landmark, Settings, X } from "lucide-react";
 import { Tabs, TabsTrigger, TabsList, TabsContent } from "./ui/tabs";
 import { useState } from "react";
 import {
@@ -11,28 +11,23 @@ import {
 } from "./ui/card";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { Field, FieldError, FieldLabel } from "./ui/field";
+import { FieldError, FieldLabel } from "./ui/field";
 import { Button } from "./ui/button";
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-
-// Tipos
-import type { gendersT } from "../Catalogs/Gender";
-import type { coinsT } from "../Catalogs/Coins";
 
 // Catálogos
 import { gendersC } from "../Catalogs/Gender";
 import { coinsC } from "../Catalogs/Coins";
 
 import * as z from "zod";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 function Configuration() {
@@ -82,6 +77,14 @@ function FormGeneralData1() {
       .string({ error: "Introduzca un nombre" })
       .min(3, "Mínimo 3 caracteres")
       .max(25, "Máximo 25 caracteres"),
+    gender: z
+      .number({ error: "Selecciona un género" })
+      .int({ error: "Selecciona un género" })
+      .positive({ error: "Selecciona un género valido" }),
+    coin: z
+      .number({ error: "Selecciona una divisa" })
+      .int({ error: "Selecciona una divisa" })
+      .positive({ error: "Selecciona una divisa valida" }),
   });
 
   type FormData = z.infer<typeof formSchema>;
@@ -91,14 +94,19 @@ function FormGeneralData1() {
     formState: { errors },
     register,
     setValue,
+    getValues,
     watch,
+    control,
   } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
+      gender: undefined,
+      coin: undefined,
     },
     mode: "onChange",
   });
+  const genderItems = gendersC.map((g) => ({ value: g.id, label: g.label }));
 
   const validateForm = async () => {
     await trigger();
@@ -113,16 +121,17 @@ function FormGeneralData1() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form className="mt-4 grid grid-cols-2 gap-2">
+        <form className="mt-4 grid grid-cols-2 gap-4">
           {/* Nombre */}
           <Label className="flex flex-col w-full">
-            <Label className="mr-auto">Nombre</Label>
+            <FieldLabel className="mr-auto">Nombre</FieldLabel>
             <div className="w-full flex">
               <Input
-                placeholder="Nombre"
+                placeholder="Ingresa tu nombre"
                 {...register("name")}
                 aria-invalid={errors.name?.message !== undefined}
               ></Input>
+              {}
               {watch("name") && (
                 <X
                   className="h-full w-auto pl-2 cursor-pointer"
@@ -138,6 +147,105 @@ function FormGeneralData1() {
           </Label>
 
           {/* Género */}
+          {/* field.value     // valor actual del formulario
+              field.onChange  // para avisarle a RHF que cambió
+              field.onBlur    // para marcar el campo como "touched"
+              field.ref       // para poder hacer focus automático al campo con error
+              fieldState      // { error, invalid, isTouched, isDirty } */}
+          <Label className="flex flex-col w-full">
+            <FieldLabel className="mr-auto">Género</FieldLabel>
+            <div className="w-full">
+              <Controller
+                name="gender"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    items={genderItems}
+                    value={field.value ?? null}
+                    onValueChange={(v) => field.onChange(v ?? undefined)}
+                  >
+                    <div className="flex">
+                      <SelectTrigger
+                        ref={field.ref}
+                        onBlur={field.onBlur}
+                        aria-invalid={errors.gender?.message !== undefined}
+                        className="w-full"
+                      >
+                        <SelectValue placeholder="Selecciona un género" />
+                      </SelectTrigger>
+                      {field.value != null && (
+                        <X
+                          className="my-auto cursor-pointer"
+                          onClick={() => field.onChange(undefined)}
+                        />
+                      )}
+                    </div>
+
+                    <SelectContent alignItemWithTrigger={false}>
+                      <SelectGroup>
+                        {genderItems.map((item) => (
+                          <SelectItem key={item.value} value={item.value}>
+                            {item.label}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                    {getValues("gender")}
+                  </Select>
+                )}
+              />
+            </div>
+            {errors.gender?.message !== undefined && (
+              <FieldError className="mr-auto">
+                {errors.gender?.message}
+              </FieldError>
+            )}
+          </Label>
+
+          {/* Divisa */}
+          <Label className="grid grid-cols-1">
+            <FieldLabel>Divisa</FieldLabel>
+            <div className="w-full">
+              <Controller
+                name="coin"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    items={coinsC}
+                    value={field.value ?? null}
+                    onValueChange={(v) => field.onChange(v ?? undefined)}
+                  >
+                    <div className="flex ">
+                      <SelectTrigger
+                        ref={field.ref}
+                        onBlur={field.onBlur}
+                        className="w-full"
+                        aria-invalid={errors.coin?.message !== undefined}
+                      >
+                        <SelectValue placeholder="Selecciona una divisa" />
+                      </SelectTrigger>
+                      {field.value != null && (
+                        <X
+                          className="my-auto"
+                          onClick={() => field.onChange(undefined)}
+                        />
+                      )}
+                    </div>
+                    <SelectContent>
+                      <SelectGroup>
+                        {coinsC.map((item) => (
+                          <SelectItem key={item.id} value={item.id}>
+                            {item.label}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+            </div>
+            {watch("coin")}
+          </Label>
         </form>
       </CardContent>
       <CardFooter>
