@@ -62,7 +62,7 @@ function NavigationBar() {
         <SidebarHeader className="h-14">
           <span className="m-auto text-3xl font-bold">Finanzas</span>
         </SidebarHeader>
-        <SidebarContent className="">
+        <SidebarContent>
           {navItems.map((section) => (
             <SidebarGroup key={section.section}>
               <SidebarGroupLabel className="text-sm text-secondary-400 font-extrabold">
@@ -73,8 +73,15 @@ function NavigationBar() {
           ))}
         </SidebarContent>
         <SidebarFooter className="mt-auto cursor-pointer">
-          <NavLink to="conf">
-            <SidebarGroupLabel className="text-sm text-neutral-100 font-extrabold">
+          <NavLink
+            to="conf"
+            className={({ isActive }) =>
+              isActive
+                ? "bg-primary-100 text-white p-3 rounded-lg"
+                : "text-gray-500 p-3 rounded-lg"
+            }
+          >
+            <SidebarGroupLabel className="text-sm font-extrabold text-inherit">
               <Settings className="mr-2" />
               Configuración
             </SidebarGroupLabel>

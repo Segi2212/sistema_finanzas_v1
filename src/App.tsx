@@ -5,9 +5,10 @@ import Dashboard from "./components/Dashboard";
 import Configuration from "./components/Configuration";
 import { Routes, Route } from "react-router";
 import { type IUserData } from "./components/Dashboard";
+import Settings from "./Data/Settings.json";
 
 const userData: IUserData = {
-  name: "Oscar",
+  name: "Juan",
   gender: "masculino",
 };
 
@@ -26,7 +27,6 @@ function App() {
             <Route path="/" element={<Dashboard userData={userData} />} />
             <Route path="/conf" element={<Configuration />} />
           </Routes>
-          {/* <Dashboard userData={userData} /> */}
         </div>
       </div>
     </div>
